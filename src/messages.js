@@ -55,12 +55,6 @@ export const generateSmiley = (warnings) => {
   else return `:'(`
 }
 
-const idSalt = () =>
-  Math.floor(Date.now() / DAYS)
-
-const obfuscateId = (id) =>
-  Math.floor((id / idSalt()) * 100000).toString(32)
-
 export const getUsername = (user) => {
   const rank = user.rank > 0 ? ' (' + getRank(user.rank) + ')' : ''
   return (user.username ? '@' + user.username : user.realname) + rank
@@ -94,14 +88,14 @@ export const usersText = (users, showNames) => {
 }
 
 export const infoText = (user) => !user ? '<i>user not found</i>'
-  : `<b>id:</b> ${obfuscateId(user.id)}, <b>username:</b> @${user.username}, ` +
+  : `<b>username:</b> @${user.username}, ` +
   `<b>rank:</b> ${user.rank} (${getRank(user.rank)}), ` +
   `<b>karma:</b> ${user.karma || 0}, ` +
   `<b>warnings:</b> ${user.warnings || 0} ${generateSmiley(user.warnings)}${user.warnings > 0 ? ` (one warning will be removed on ${stringifyTimestamp(user.warnUpdated + WARN_EXPIRE)})` : ''}, ` +
   `<b>cooldown:</b> ${user.banned >= Date.now() ? 'yes, until ' + stringifyTimestamp(user.banned) : 'no'}`
 
 export const modInfoText = (user) => !user ? '<i>user not found</i>'
-  : `<b>id:</b> ${obfuscateId(user.id)}, <b>username:</b> anonymous, ` +
+  : `<b>username:</b> anonymous, ` +
   `<b>rank:</b> n/a, ` +
   `<b>karma:</b> ${obfuscateKarma(user.karma || 0)}, ` +
   `<b>cooldown:</b> ${user.banned >= Date.now() ? 'yes, until ' + stringifyTimestamp(user.banned) : 'no'}`
